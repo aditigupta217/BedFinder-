@@ -362,6 +362,18 @@ const saveWaitingList = () => {
 };
 
 let state: Hospital[] = seed.map((h) => ({ ...h, history: [...h.history] }));
+
+if (typeof window !== "undefined") {
+  try {
+    const savedState = localStorage.getItem("bedfinder_hospitals_state");
+    if (savedState) {
+      state = JSON.parse(savedState);
+    }
+  } catch (e) {
+    console.error("Failed to load hospitals state from localStorage", e);
+  }
+}
+
 const listeners = new Set<() => void>();
 
 const notify = () => listeners.forEach((l) => l());
@@ -387,6 +399,13 @@ export const hospitalsStore = {
         history: [...h.history, { time, icu, general, emergency }].slice(-12),
       };
     });
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem("bedfinder_hospitals_state", JSON.stringify(state));
+      } catch (e) {
+        console.error("Failed to save hospitals state to localStorage", e);
+      }
+    }
     notify();
   },
   getWaitingList: () => waitingList,

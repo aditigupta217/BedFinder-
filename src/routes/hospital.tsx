@@ -42,6 +42,8 @@ function LoginCard({ hospitals, onAuth }: { hospitals: Hospital[]; onAuth: (id: 
   const [err, setErr] = useState("");
   const refs = useRef<(HTMLInputElement | null)[]>([]);
 
+  const currentHospital = hospitals.find((x) => x.id === id);
+
   const submit = () => {
     const h = hospitals.find((x) => x.id === id);
     if (!h) return;
@@ -66,13 +68,17 @@ function LoginCard({ hospitals, onAuth }: { hospitals: Hospital[]; onAuth: (id: 
         <p className="text-sm text-muted-foreground mt-1">
           {t("Sign in to update live bed counts.")}
         </p>
-
+ 
         <label className="block text-xs font-medium text-[#0A1628] mt-6 mb-1.5">
           {t("Hospital")}
         </label>
         <select
           value={id}
-          onChange={(e) => setId(e.target.value)}
+          onChange={(e) => {
+            setId(e.target.value);
+            setPin(["", "", "", ""]);
+            setErr("");
+          }}
           className="w-full bg-white border border-[#E8ECF2] rounded-lg px-3 py-2.5 text-sm outline-none focus:border-[#0A1628]"
         >
           {hospitals.map((h) => (
@@ -116,9 +122,14 @@ function LoginCard({ hospitals, onAuth }: { hospitals: Hospital[]; onAuth: (id: 
         >
           {t("Sign in →")}
         </button>
-        <p className="text-[11px] text-muted-foreground mt-3">
-          {t("Demo PINs are listed in the seed data (e.g. 1234, 5678…).")}
-        </p>
+
+        {currentHospital && (
+          <div className="mt-5 bg-amber-50 border border-amber-200 text-amber-800 rounded-lg p-3 text-xs flex flex-col gap-1">
+            <span className="font-semibold">🔑 Demo Credentials:</span>
+            <span>Hospital Name: <strong className="text-amber-900">{currentHospital.name}</strong></span>
+            <span>PIN / Password: <strong className="text-amber-900 bg-amber-100 px-1 py-0.5 rounded select-all font-mono text-sm">{currentHospital.pin}</strong></span>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -137,6 +148,7 @@ function StaffDashboard({ hospital, onSignOut }: { hospital: Hospital; onSignOut
     setIcu(hospital.icu_available);
     setGen(hospital.general_available);
     setEmr(hospital.emergency_available);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hospital.id]);
 
   const clamp = (v: number, max: number) => Math.max(0, Math.min(max, v));
