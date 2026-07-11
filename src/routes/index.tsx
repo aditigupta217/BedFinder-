@@ -5,7 +5,6 @@ import { HospitalCard } from "@/components/HospitalCard";
 import { useHospitals, minutesAgo, hospitalsStore } from "@/lib/hospitals";
 import { toast } from "sonner";
 import { useLanguage } from "../context/LanguageContext";
-import { GeminiChat } from "@/components/GeminiChat";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -235,7 +234,6 @@ function CitizenPortal() {
           </div>
         </div>
       </section>
-      <GeminiChat />
     </div>
   );
 }

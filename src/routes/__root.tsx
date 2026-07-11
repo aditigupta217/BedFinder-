@@ -13,6 +13,8 @@ import { Toaster } from "sonner";
 import appCss from "../styles.css?url";
 import { reportError } from "../lib/error-reporting";
 import { LanguageProvider, useLanguage } from "../context/LanguageContext";
+import { GeminiChat } from "../components/GeminiChat";
+
 
 function NotFoundComponent() {
   return (
@@ -106,6 +108,7 @@ function RootContent() {
       <footer className="fixed bottom-0 left-0 right-0 bg-[#0A1628] border-t border-white/10 text-white py-3.5 text-center text-xs sm:text-sm font-medium z-50 shadow-lg select-none">
         {t("National Ambulance: 108 (Free, 24/7)")}
       </footer>
+      <GeminiChat />
     </div>
   );
 }

@@ -3,7 +3,6 @@ import { useMemo } from "react";
 import { useHospitals } from "@/lib/hospitals";
 import { Navbar } from "@/components/Navbar";
 import { useLanguage } from "../context/LanguageContext";
-import { GeminiChat } from "@/components/GeminiChat";
 
 export const Route = createFileRoute("/emergency")({
   head: () => ({
@@ -121,7 +120,6 @@ function EmergencyPage() {
           </div>
         )}
       </div>
-      <GeminiChat />
     </div>
   );
 }
